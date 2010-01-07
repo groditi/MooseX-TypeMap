@@ -15,6 +15,6 @@ test_requires 'Test::More' => '0.62';
 
 resources 'IRC' => 'irc://irc.perl.org/#moose';
 resources 'license' => 'http://dev.perl.org/licenses/';
-resources 'repository' => '';
+resources 'repository' => 'git://github.com/groditi/MooseX-TypeMap.git';
 
 WriteAll;
