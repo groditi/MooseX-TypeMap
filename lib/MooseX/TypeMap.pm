@@ -197,6 +197,19 @@ The following methods are associated with this attribute:
 Constructor.
 Accepts the following keys: C<entries>, C<subtype_entries>.
 
+=head2 find_matching_entry
+
+=over 4
+
+=item B<arguments:> C<$type>
+
+=items B<return value:> C<$entry>
+
+=back
+
+Will return the C<$entry> C<$type> resolves to, or an undefined value if no
+matching entry is found.
+
 =head2 has_entry_for
 
 =over 4
