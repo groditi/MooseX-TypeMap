@@ -2,6 +2,8 @@ package MooseX::TypeMap::Entry;
 
 use Moose;
 
+our $VERSION = '0.001000';
+
 has data => ( is => 'ro' );
 has type_constraint => (
   is => 'ro',

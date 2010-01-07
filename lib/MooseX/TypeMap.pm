@@ -5,6 +5,8 @@ use MooseX::TypeMap::Entry;
 use Scalar::Util qw(refaddr);
 use MooseX::Types::Moose qw(ArrayRef);
 
+our $VERSION = '0.001000';
+
 has entries => (
   is => 'ro',
   isa => ArrayRef['MooseX::TypeMap::Entry'],
@@ -67,22 +69,30 @@ sub _build__sorted_entries {
   return \@sorted;
 }
 
-sub has_entry_for {
-  my($self, $type) = @_;
-  return defined $self->resolve($type);
-}
-
-sub resolve  {
+sub find_matching_entry {
   my($self, $type) = @_;
   for my $entry (@{ $self->entries }) {
-    return $entry->data if $entry->type_constraint->equals($type);
+    return $entry if $entry->type_constraint->equals($type);
   }
 
   for my $family (@{ $self->_sorted_entries }) {
     for my $entry (@{ $family }) {
       my $tc = $entry->type_constraint;
-      return $entry->data if $type->equals($tc) || $type->is_subtype_of($tc);
+      return $entry if $type->equals($tc) || $type->is_subtype_of($tc);
     }
+  }
+  return;
+}
+
+sub has_entry_for {
+  my($self, $type) = @_;
+  return defined $self->find_matching_entry($type);
+}
+
+sub resolve  {
+  my($self, $type) = @_;
+  if( my $entry = $self->find_matching_entry($type) ){
+    return $entry->data;
   }
   return;
 }
