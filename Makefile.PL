@@ -9,6 +9,7 @@ all_from 'lib/MooseX/TypeMap.pm';
 # prereqs
 requires 'Moose';
 requires 'MooseX::Types' => '0.19';
+requires 'namespace::clean';
 
 # things the tests need
 test_requires 'Test::More' => '0.62';

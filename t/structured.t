@@ -54,7 +54,7 @@ my $type_map = MooseX::TypeMap->new(
 );
 
 my @entries;
-for my $slot ( @{ $type_map->_sorted_entries } ){
+for my $slot ( $type_map->_sorted_entries ){
   push(@entries, [map { $_->data } @$slot] );
 }
 

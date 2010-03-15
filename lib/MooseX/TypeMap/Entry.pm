@@ -1,8 +1,10 @@
 package MooseX::TypeMap::Entry;
 
 use Moose;
+use Scalar::Util qw(blessed);
+use namespace::clean -except => [qw( meta )];
 
-our $VERSION = '0.001000';
+our $VERSION = '0.002000';
 
 has data => ( is => 'ro' );
 has type_constraint => (
@@ -10,6 +12,16 @@ has type_constraint => (
   isa => 'Moose::Meta::TypeConstraint',
   required => 1,
 );
+
+around BUILDARGS => sub {
+  my $orig = shift;
+  my $class = shift;
+  my $args = $class->$orig(@_);
+  my $type = delete $args->{type_constraint};
+  $args->{type_constraint} = blessed($type) eq 'MooseX::Types::TypeDecorator'
+    ? $type->__type_constraint : $type;
+  return $args;
+};
 
 __PACKAGE__->meta->make_immutable;
 
